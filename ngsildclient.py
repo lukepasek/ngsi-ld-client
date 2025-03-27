@@ -92,7 +92,7 @@ class ContextBrokerClient:
         url = self._build_url(url, tenant)
 
         if verbose:
-            print('🔁 GET', url, 'tenant:', tenant)
+            print('⏩ GET', url, 'tenant:', tenant)
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if verbose and print_request_headers:
             print('--> request headers: ', headers)
@@ -100,8 +100,8 @@ class ContextBrokerClient:
         response = self.session.get(url, headers=headers)
 
         if verbose:
-            print('<--', response.status_code, response.reason, response.elapsed.total_seconds())
-        # print('<--', response.headers)
+            print('⏪', response.status_code, response.reason, response.elapsed.total_seconds())
+        # print('⏪', response.headers)
 
         json_data = response.json()
         if response.status_code == 200:
@@ -111,11 +111,11 @@ class ContextBrokerClient:
             return (json_data, response.content, response.headers)
         else:
             if verbose:
-                print('<--', response.headers)
+                print('⏪', response.headers)
                 if json_data:
                     self._print_json_data(json_data)
                 else:
-                    print('<--', response.content)
+                    print('⏪', response.content)
 
         return (None, response.content, response.headers)
     
@@ -132,7 +132,7 @@ class ContextBrokerClient:
             binary_data = json.dumps(data).encode(encoding='utf-8')
 
         if verbose:
-            print('🔁 POST', url, 'tenant:', tenant, "size:", len(binary_data), 'bytes')
+            print('⏩ POST', url, 'tenant:', tenant, "size:", len(binary_data), 'bytes')
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if verbose and print_request_headers:
             print('--> request headers: ', headers)
@@ -151,7 +151,7 @@ class ContextBrokerClient:
             )
             resp_status = response.status_code
             if verbose:
-                print('<--', response.status_code, response.reason, response.elapsed.total_seconds(), 'sec')
+                print('⏪', response.status_code, response.reason, response.elapsed.total_seconds(), 'sec')
             if (resp_status>=200 and resp_status<300) or resp_status == 404:
                 return (True, response.status_code, response.headers, None)
             else:
@@ -159,12 +159,12 @@ class ContextBrokerClient:
                 last_resp_headers = response.headers
                 last_resp_content = response.content
                 if verbose:
-                    print('<--', response.headers)
+                    print('⏪', response.headers)
                     json_data = response.json
                     if json_data:
                         self._print_json_data(json_data)
                     else:
-                        print('<--', response.content)
+                        print('⏪', response.content)
                 if retry>retry_cnt:
                     delay = retry_cnt*5
                     if verbose:
@@ -180,7 +180,7 @@ class ContextBrokerClient:
         if not retry:
             retry = 1
 
-        print('🔁 PUT', url, 'tenant:', tenant)
+        print('⏩ PUT', url, 'tenant:', tenant)
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if print_request_headers:
             print("--> request headers: ", headers)
@@ -197,7 +197,7 @@ class ContextBrokerClient:
                 data = data
             )
             resp_status = response.status_code
-            print('<--', response.status_code, response.reason, response.elapsed.total_seconds(), 'sec')
+            print('⏪', response.status_code, response.reason, response.elapsed.total_seconds(), 'sec')
             if (resp_status>=200 and resp_status<300) or resp_status == 404:
                 return (True, response.status_code, response.headers, None)
             else:
@@ -205,12 +205,12 @@ class ContextBrokerClient:
                 last_resp_headers = response.headers
                 last_resp_content = response.content
                 if verbose:
-                    print('<--', response.headers)
+                    print('⏪', response.headers)
                     json_data = response.json
                     if json_data:
                         self._print_json_data(json_data)
                     else:
-                        print('<--', response.content)
+                        print('⏪', response.content)
                 if retry>retry_cnt:
                     delay = retry_cnt*5
                     print("🚨 retrying in", delay, "sec...")
@@ -225,7 +225,7 @@ class ContextBrokerClient:
         if not retry:
             retry = 1
 
-        print('🔁 PATCH', url, 'tenant:', tenant)
+        print('⏩ PATCH', url, 'tenant:', tenant)
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if print_request_headers:
             print("--> request headers: ", headers)
@@ -242,19 +242,19 @@ class ContextBrokerClient:
                 data = data
             )
             resp_status = response.status_code
-            print('<--', response.status_code, response.reason, response.elapsed.total_seconds(), 'sec')
+            print('⏪', response.status_code, response.reason, response.elapsed.total_seconds(), 'sec')
             if (resp_status>=200 and resp_status<300) or resp_status == 404:
                 return (True, response.status_code, response.headers, None)
             else:
                 last_resp_status = response.status_code
                 last_resp_headers = response.headers
                 last_resp_content = response.content
-                print('<--', response.headers)
+                print('⏪', response.headers)
                 json_data = response.json
                 if json_data:
                     self._print_json_data(json_data)
                 else:
-                    print('<--', response.content)
+                    print('⏪', response.content)
                 if retry>retry_cnt:
                     delay = retry_cnt*5
                     print("🚨 retrying in", delay, "sec...")
@@ -269,7 +269,7 @@ class ContextBrokerClient:
         url = self._build_url(url, tenant)
 
 
-        print('🔁 DELETE', url, 'tenant:', tenant)
+        print('⏩ DELETE', url, 'tenant:', tenant)
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if print_request_headers:
             print("--> request headers: ", headers)
@@ -285,19 +285,19 @@ class ContextBrokerClient:
                 headers = headers,
             )
             resp_status = response.status_code
-            print('<--', response.status_code, response.reason, response.elapsed.total_seconds(), 'sec')
+            print('⏪', response.status_code, response.reason, response.elapsed.total_seconds(), 'sec')
             if (resp_status>=200 and resp_status<300) or resp_status == 404:
                 return (True, response.status_code, response.headers, None)
             else:
                 last_resp_status = response.status_code
                 last_resp_headers = response.headers
                 last_resp_content = response.content
-                print('<--', response.headers)
+                print('⏪', response.headers)
                 json_data = response.json
                 if json_data:
                     self._print_json_data(json_data)
                 else:
-                    print('<--', response.content)
+                    print('⏪', response.content)
                 if retry>retry_cnt:
                     delay = retry_cnt*5
                     print("🚨 retrying in", delay, "sec...")
