@@ -1,10 +1,12 @@
 from ngsildclient import ContextBrokerClient
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
-# Change base_url to your ngsi-ld context broker host
 scorpio = ContextBrokerClient(
-    base_url='https://scorpiobroker.test.com/',
-    tenant='test-1',
+    base_url=os.environ['SCORPIO_BASE_URL'],
+    tenant=os.environ['SCORPIO_TENANT'],
 )
 
 # list types
