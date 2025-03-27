@@ -95,13 +95,13 @@ class ContextBrokerClient:
             print('⏩ GET', url, 'tenant:', tenant)
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if verbose and print_request_headers:
-            print('--> request headers: ', headers)
+            print('⏩ request headers: ', headers)
 
         response = self.session.get(url, headers=headers)
 
         if verbose:
             print('⏪', response.status_code, response.reason, response.elapsed.total_seconds())
-        # print('⏪', response.headers)
+        #   print('⏪', response.headers)
 
         json_data = response.json()
         if response.status_code == 200:
@@ -111,7 +111,7 @@ class ContextBrokerClient:
             return (json_data, response.content, response.headers)
         else:
             if verbose:
-                print('⏪', response.headers)
+                # print('⏪', response.headers)
                 if json_data:
                     self._print_json_data(json_data)
                 else:
@@ -135,7 +135,7 @@ class ContextBrokerClient:
             print('⏩ POST', url, 'tenant:', tenant, "size:", len(binary_data), 'bytes')
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if verbose and print_request_headers:
-            print('--> request headers: ', headers)
+            print('⏩ request headers: ', headers)
 
         resp_status = 0
         retry_cnt = 0
@@ -159,7 +159,7 @@ class ContextBrokerClient:
                 last_resp_headers = response.headers
                 last_resp_content = response.content
                 if verbose:
-                    print('⏪', response.headers)
+                    # print('⏪', response.headers)
                     json_data = response.json
                     if json_data:
                         self._print_json_data(json_data)
@@ -183,7 +183,7 @@ class ContextBrokerClient:
         print('⏩ PUT', url, 'tenant:', tenant)
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if print_request_headers:
-            print("--> request headers: ", headers)
+            print("⏩ request headers: ", headers)
 
         resp_status = 0
         retry_cnt = 0
@@ -205,7 +205,7 @@ class ContextBrokerClient:
                 last_resp_headers = response.headers
                 last_resp_content = response.content
                 if verbose:
-                    print('⏪', response.headers)
+                    # print('⏪', response.headers)
                     json_data = response.json
                     if json_data:
                         self._print_json_data(json_data)
@@ -228,7 +228,7 @@ class ContextBrokerClient:
         print('⏩ PATCH', url, 'tenant:', tenant)
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if print_request_headers:
-            print("--> request headers: ", headers)
+            print("⏩ request headers: ", headers)
 
         resp_status = 0
         retry_cnt = 0
@@ -249,7 +249,7 @@ class ContextBrokerClient:
                 last_resp_status = response.status_code
                 last_resp_headers = response.headers
                 last_resp_content = response.content
-                print('⏪', response.headers)
+                # print('⏪', response.headers)
                 json_data = response.json
                 if json_data:
                     self._print_json_data(json_data)
@@ -272,7 +272,7 @@ class ContextBrokerClient:
         print('⏩ DELETE', url, 'tenant:', tenant)
         headers = self._build_headers(get_token, tenant, context, accept, extra_headers)
         if print_request_headers:
-            print("--> request headers: ", headers)
+            print("⏩ request headers: ", headers)
 
         resp_status = 0
         retry_cnt = 0
@@ -292,7 +292,7 @@ class ContextBrokerClient:
                 last_resp_status = response.status_code
                 last_resp_headers = response.headers
                 last_resp_content = response.content
-                print('⏪', response.headers)
+                # print('⏪', response.headers)
                 json_data = response.json
                 if json_data:
                     self._print_json_data(json_data)

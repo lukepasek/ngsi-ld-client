@@ -5,8 +5,12 @@ import os
 load_dotenv()
 
 scorpio = ContextBrokerClient(
-    base_url=os.environ['SCORPIO_BASE_URL'],
-    tenant=os.environ['SCORPIO_TENANT'],
+    base_url=os.environ.get('SCORPIO_BASE_URL'),
+    tenant=os.environ.get('SCORPIO_TENANT'),
+    keycloak_url=os.environ.get('KEYCLOAK_URL'),    
+    keycloak_realm=os.environ.get('KEYCLOAK_REALM'),
+    client_id=os.environ.get('KEYCLOAK_CLIENT_ID'),
+    client_secret_key=os.environ.get('KEYCLOAK_CLIENT_SECRET_KEY')
 )
 
 # list types
