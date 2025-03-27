@@ -304,11 +304,11 @@ class ContextBrokerClient:
                     time.sleep(retry_cnt*5)
         return (False, last_resp_status, last_resp_headers, last_resp_content)
 
-    def ql_download_temporal_entities(tenant, entities=None, types=None):
+    def ql_download_temporal_entities(scorpio, ql, entities=None, types=None):
 
         if not entities:
             if not types:
-                types_data, _, _ = get_scorpio(SRC_SCORPIO_BASE_URL+'/ngsi-ld/v1/types', get_src_token_token, tenant=tenant, print_response=True)
+                types_data, _, _ = scorpio.get('types', print_response=True)
                 if types_data:
                     tenant_types = types_data['typeList']
             else:
@@ -318,7 +318,7 @@ class ContextBrokerClient:
 
             for entity_type in tenant_types:
                 if entity_type not in ['AirQualityObserved']:
-                    entities_data, data, _ = get_scorpio(SRC_SCORPIO_BASE_URL+'/ngsi-ld/v1/entities?type='+entity_type, get_src_token_token, tenant=tenant, print_response=True)
+                    entities_data, data, _ = scorpio.get('entities?type='+entity_type, print_response=True)
                     with open("type_"+entity_type+'.json', "wb") as binary_file:
                         binary_file.write(data)
                     for e in entities_data:
@@ -326,7 +326,7 @@ class ContextBrokerClient:
                         
 
             for entity_id in entities:
-                entity_data, _, response_headers = get_scorpio(SRC_SCORPIO_BASE_URL+'/ngsi-ld/v1/entities/'+entity_id, get_src_token_token, tenant=tenant, print_response=True)
+                entity_data, _, response_headers = scorpio.get('entities/'+entity_id, print_response=True)
 
                 if 'id' in entity_data and entity_data['id'] == entity_id:
                     link = response_headers.get('Link')
@@ -338,7 +338,7 @@ class ContextBrokerClient:
                     batch_offset = 0
                     record_count = 0
                     while not ql_fetch_end:
-                        temporal_data, data, response_headers = get_scorpio(SRC_QL_BASE_URL+'/v2/entities/'+entity_id+"?last_n="+str(batch_size)+"&offset="+str(batch_offset), get_src_token_token, tenant=tenant, print_response=False)
+                        temporal_data, data, response_headers = ql.get('entities/'+entity_id+"?last_n="+str(batch_size)+"&offset="+str(batch_offset), print_response=False)
                         if not temporal_data:
                             break
                         count = len(temporal_data['index'])
